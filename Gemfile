@@ -33,6 +33,8 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   gem 'capistrano-rails'
+  gem 'pry-rails'
+  gem 'pry-byebug'
   gem 'capistrano3-unicorn'
 end
 

@@ -4,8 +4,9 @@ class SessionsController < ApplicationController
   def create
     begin
       @user = User.find_by "user='#{params[:user]}' and pass='#{ Digest::MD5.hexdigest params[:pass] }'"
-      log_in @user
-      render json: {name: @user.name, icon: icon_user_path(@user)} and return
+      token = SecureRandom.hex
+      log_in @user, token
+      render json: {name: @user.name, icon: icon_user_path(@user), csrf: token} and return
     rescue
       render json: {errors: ['ログインに失敗しました']}, status: :bad_request and return
     end

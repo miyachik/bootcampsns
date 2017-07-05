@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   has_many :friends_from_user, :through => :friends_from, :source => 'to_user'
   has_many :friends_to_user, :through => :friends_to, :source => 'from_user'
 
-  validates :user, presence: true, length: {maximum: 20}, format: {with: /\A[\x20-\x7f]+\z/}, uniqueness: true 
+  validates :user, presence: true, length: {maximum: 20}, format: {with: /\A[\x20-\x7f]+\z/}, uniqueness: true
   validates :name, presence: true, length: {maximum: 20}
   validates :pass, presence: true
   validates :icon_file_name, format: {with: /\A[0-9a-z?-]+\.+[0-9a-z]+\z/}

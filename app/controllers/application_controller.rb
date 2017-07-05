@@ -1,4 +1,3 @@
-
 class ApplicationController < ActionController::Base
   before_action :reject_cross_origin_request, except: [:icon, :manage]
 
@@ -8,8 +7,9 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def log_in(user)
+  def log_in(user, token)
     reset_session
+    session[:csrf] = token
     session[:id] = user.id
   end
 
@@ -25,6 +25,11 @@ class ApplicationController < ActionController::Base
   def authenticate_user!
     @current_user = User.find_by(id: session[:id])
     render :nothing => true, :status => :forbidden and return if @current_user.nil?
+  end
+
+  def authenticate_csrf!
+    binding.pry
+    render :nothing => true, :status => :forbidden unless params[:csrf] == session[:csrf]
   end
 
   def reject_non_admin_user
