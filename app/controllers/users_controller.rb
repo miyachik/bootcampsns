@@ -5,10 +5,10 @@ class UsersController < ApplicationController
   def create
     @user = User.create user_params
     render json: {errors: @user.errors.full_messages}, status: :bad_request and return if @user.errors.any?
-
+    token = SecureRandom.hex
     @user = User.find_by user: @user.user
-    log_in @user
-    render json: {name: @user.name, icon: icon_user_path(@user)} and return
+    log_in @user,token
+    render json: {name: @user.name, icon: icon_user_path(@user), csrf: token} and return
   end
 
   def icon

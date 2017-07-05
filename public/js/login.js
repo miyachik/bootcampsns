@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // ログイン成功
         localStorage.setItem('name', result.name);
         localStorage.setItem('icon', result.icon);
+        localStorage.setItem('csrf', result.csrf);
         top.location = '/'; // メイン画面を表示
       } else {
         // ログイン失敗

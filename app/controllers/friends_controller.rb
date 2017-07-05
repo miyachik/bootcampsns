@@ -1,6 +1,6 @@
 class FriendsController < ApplicationController
   before_action :authenticate_user!
-
+  before_action :authenticate_csrf!
   def create
     @user = User.find_by user: params[:user]
     render json: {errors: ['指定されたユーザは存在しません']}, status: :bad_request and return if @user.nil?

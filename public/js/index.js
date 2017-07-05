@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let process = result => {
       localStorage.removeItem('name');
       localStorage.removeItem('icon');
+      localStorage.removeItem('csrf');
       top.location = '/'; // ログイン画面を表示
     }
     fetcher('/sessions', {method: 'DELETE'}, process);
@@ -41,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     event.preventDefault();
     let body = new FormData();
     body.append('user', $$('input-user-name').value);
+    body.append('user', localStorage.getItem('csrf'));
     let process = result => {
       if (result.errors) {
         // 友人登録失敗
@@ -62,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let body = new FormData();
     body.append('comment', $$('input-text-feed').value);
     body.append('feed_type', 'text');
+    body.append('csrf', localStorage.getItem('csrf'));
     let process = result => top.location = '/'; // メイン画面を再読み込み
     fetcher('/feeds', {method: 'POST', body: body}, process);
   });
@@ -78,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let body = new FormData();
     body.append('image', event.dataTransfer.files[0]);
     body.append('feed_type', 'image');
+    body.append('csrf', localStorage.getItem('csrf'));
     let process = result => {
       if(result.errors) {
         $$('div-image-drop').textContent = 'ここに画像をドロップ';
@@ -121,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
           latestFeedId = result.feeds[0].id;
           $$('div-feeds').prependChild(createFeedFragment(result.feeds));
           $$('span-new-feed-count').textContent = 0;
-          $$('div-new-feeds').style.display = 'none';        
+          $$('div-new-feeds').style.display = 'none';
         }
       } else {
         $$('span-new-feed-count').textContent = 0;
@@ -147,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         oldestFeedId = result.feeds[result.feeds.length-1].id;
         $$('div-feeds').appendChild(createFeedFragment(result.feeds));
         $$('div-old-feeds').style.display = 'none';
-        setTimeout(loadOldFeeds, 1000);    
+        setTimeout(loadOldFeeds, 1000);
       }
     };
     fetcher(url, {method: 'GET'}, process);
@@ -184,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cf.getElementById('content').innerHTML = `
           <img class='img-responsive img-thumbnail' src='/images/${feeds[i].image_file_name}'>
           <br><small class='exif'>${caption}</small>`;
-      }      
+      }
       fragment.appendChild(cf);
     }
     return fragment;

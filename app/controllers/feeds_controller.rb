@@ -1,5 +1,6 @@
 class FeedsController < ApplicationController
   before_action :authenticate_user!
+  before_action :authenticate_csrf!, only: %i[create]
 
   def create
     case params[:feed_type]
