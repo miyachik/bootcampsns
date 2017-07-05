@@ -23,4 +23,14 @@ class UsersController < ApplicationController
   def manage
     @users = User.all
   end
+
+  private
+  def user_params
+    params.require(:user)
+          .permit(:user,
+            :name,
+            :pass,
+          )
+
+  end
 end
