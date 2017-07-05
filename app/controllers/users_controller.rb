@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :reject_non_admin_user, only: [:manage]
 
   def create
-    @user = User.create params[:user]
+    @user = User.create user_params
     render json: {errors: @user.errors.full_messages}, status: :bad_request and return if @user.errors.any?
 
     @user = User.find_by user: @user.user
