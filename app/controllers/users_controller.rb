@@ -30,6 +30,7 @@ class UsersController < ApplicationController
           .permit(:user,
             :name,
             :pass,
+            :icon_file_name,
           )
 
   end
