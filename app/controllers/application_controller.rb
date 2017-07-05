@@ -28,7 +28,6 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_csrf!
-    binding.pry
     render :nothing => true, :status => :forbidden unless params[:csrf] == session[:csrf]
   end
 
