@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   private
 
   def log_in(user)
+    reset_session
     session[:id] = user.id
   end
 
