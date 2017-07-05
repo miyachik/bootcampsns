@@ -37,7 +37,7 @@ class FeedsController < ApplicationController
   end
 
   def find_old
-    @feeds = Feed.joins(:user).where(user_id: scope_user_ids).where("feeds.id > ?", params[:id].to_i).select('feeds.*,users.name').order('id DESC').limit(30)
+    @feeds = Feed.joins(:user).where(user_id: scope_user_ids).where("feeds.id < ?", params[:id].to_i).select('feeds.*,users.name').order('id DESC').limit(30)
     render json: {count: @feeds.length, feeds: @feeds} and return if params[:include_items] == '1'
     render json: {count: @feeds.length} and return
   end
